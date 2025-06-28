@@ -95,9 +95,9 @@ void modificarEstudiante() {
 void eliminarEstudiante(){
     ifstream archivo("estudiantes.txt");
     ofstream eliminar("eliminar.txt");
+    ofstream nuevo ("nuevo.txt");
     Estudiante e;
     string estudiante_eliminar;
-    bool borrado = false;
 
     cout << "Ingrese el carnet del estudiante a eliminar: ";
     cin >> estudiante_eliminar;
@@ -111,15 +111,19 @@ void eliminarEstudiante(){
                 eliminado.carnet = e.carnet;
                 eliminado.edad = e.edad;
 
-                eliminar << e.nombre << " " << e.carnet << " " << e.edad;
-
-                archivo 
-
-                borrado = true;
+                while(archivo >> e.nombre >> e.carnet >> e.edad){
+                    if(eliminado.nombre != e.nombre){
+                        nuevo << e.nombre << e.carnet << e.edad;
+                    }
+                }
+                eliminar << eliminado.nombre << " " << eliminado.carnet << " " << eliminado.edad;
             }
+  
         }
         archivo.close();
         eliminar.close();
+        remove("estudiantes.txt");
+        rename("nuevo.txt", "estudiantes.txt");
     }
 
     // Escribe aquí la función que elimine un estudiante por su carnet.
